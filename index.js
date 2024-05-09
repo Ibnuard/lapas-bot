@@ -10,10 +10,6 @@ const WAConnect = async () => {
     authTimeoutMs: 0,
     authStrategy: new LocalAuth(),
     puppeteer: {
-      executablePath:
-        os.platform() !== "win32"
-          ? "/usr/bin/google-chrome-stable"
-          : "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
