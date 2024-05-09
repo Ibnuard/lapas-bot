@@ -14,6 +14,7 @@ const Handler = async (client, message) => {
 
   //send message
   async function sendMessage(content, options, receiver) {
+    console.log(`Chat From ${message.from}: ${cat.msg}`);
     return await client.sendMessage(receiver ?? message.from, content, options);
   }
 

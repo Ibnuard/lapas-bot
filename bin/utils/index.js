@@ -60,9 +60,7 @@ function isSessionExpired(wa) {
 
   const diff = calculateHourDifference(lastUpdate, currentTime);
 
-  console.log(diff);
-
-  if (diff < 5) {
+  if (diff < 60) {
     return false;
   }
 
