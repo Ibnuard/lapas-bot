@@ -1,0 +1,4 @@
+node_modules
+.meow
+.wwebjs_cache
+.wwebjs_auth
