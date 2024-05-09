@@ -24,6 +24,7 @@ function checkUserSession(wa) {
   const isExpired = isSessionExpired(wa);
 
   if (isExpired) {
+    updateLastSessionTime(wa);
     return constants.SESSION_LEVEL.INTRO;
   }
 

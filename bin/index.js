@@ -30,9 +30,14 @@ const Handler = async (client, message) => {
   if (!cat.isGroup) {
     const session = checkUserSession(cat.author);
 
+    if (cat.msg == "info" || cat.msg == "Info" || cat.msg == "INFO") {
+      await sendMessage(USER_REPLY_MASTER.INTRO);
+      return;
+    }
+
     // on session intro
     if (session == USER_SESSION_TYPE.INTRO) {
-      sendMessage(USER_REPLY_MASTER.INTRO);
+      await sendMessage(USER_REPLY_MASTER.INTRO);
       updateUserSession(cat.author, USER_SESSION_TYPE.SELECT);
     }
 
@@ -73,19 +78,22 @@ const Handler = async (client, message) => {
           break;
         default:
           media =
-            "Mohon untuk membalas pesan ini dengan angka 1-7 untuk mendapatkan informasi yang anda butuhkan.";
+            "Mohon untuk membalas pesan ini dengan angka 1-7 untuk mendapatkan informasi yang anda butuhkan, atau balas dengan 'info' untuk menampilkan menu yang tersedia.";
           type = "text";
           break;
       }
 
       if (type == "image_multi") {
         for (msg of media) {
-          sendMessage(msg);
+          await sendMessage(msg);
         }
+        await sendMessage(USER_REPLY_MASTER.MSG_HELP);
+        updateLastSessionTime(cat.author);
         return;
       }
 
-      sendMessage(media);
+      await sendMessage(media);
+      await sendMessage(USER_REPLY_MASTER.MSG_HELP);
       updateLastSessionTime(cat.author);
     }
   }
