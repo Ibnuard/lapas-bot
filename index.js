@@ -3,6 +3,8 @@ const qrcode = require("qrcode-terminal");
 const { Log } = require("./bin/styles");
 const { Handler } = require("./bin");
 var os = require("os");
+const cron = require("node-cron");
+const { exec } = require("child_process");
 
 const WAConnect = async () => {
   const BOT = new Client({
@@ -63,6 +65,33 @@ const WAConnect = async () => {
     //retry to connect
     WAConnect();
   });
+
+  // Fungsi untuk merestart PM2
+  const restartPM2 = () => {
+    exec("pm2 restart all", (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.error(`stderr: ${stderr}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+    });
+  };
+
+  // Atur jadwal untuk merestart PM2 setiap 24 jam
+  cron.schedule(
+    "0 0 * * *",
+    () => {
+      console.log("Memulai restart PM2...");
+      restartPM2();
+    },
+    {
+      timezone: "Asia/Jakarta", // Sesuaikan dengan zona waktu Anda
+    }
+  );
 };
 
 WAConnect();
