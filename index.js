@@ -24,7 +24,7 @@ const WAConnect = async () => {
     },
     webVersionCache: {
       type: "remote",
-      remotePath: `https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2410.1.html`,
+      remotePath: `https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.50.html`,
     },
   });
 
@@ -53,9 +53,6 @@ const WAConnect = async () => {
     await Handler(BOT, msg);
   });
 
-  //START CLIENT
-  BOT.initialize();
-
   BOT.on("disconnected", async (message) => {
     console.log(Log.logWarning("Disconnected : " + message));
 
@@ -66,32 +63,35 @@ const WAConnect = async () => {
     WAConnect();
   });
 
-  // Fungsi untuk merestart PM2
-  const restartPM2 = () => {
-    exec("pm2 restart all", (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.error(`stderr: ${stderr}`);
-        return;
-      }
-      console.log(`stdout: ${stdout}`);
-    });
-  };
+  //START CLIENT
+  BOT.initialize();
 
-  // Atur jadwal untuk merestart PM2 setiap 24 jam
-  cron.schedule(
-    "0 0 * * *",
-    () => {
-      console.log("Memulai restart PM2...");
-      restartPM2();
-    },
-    {
-      timezone: "Asia/Jakarta", // Sesuaikan dengan zona waktu Anda
-    }
-  );
+  // Fungsi untuk merestart PM2
+  // const restartPM2 = () => {
+  //   exec("pm2 restart all", (error, stdout, stderr) => {
+  //     if (error) {
+  //       console.error(`Error: ${error.message}`);
+  //       return;
+  //     }
+  //     if (stderr) {
+  //       console.error(`stderr: ${stderr}`);
+  //       return;
+  //     }
+  //     console.log(`stdout: ${stdout}`);
+  //   });
+  // };
+
+  // // Atur jadwal untuk merestart PM2 setiap 24 jam
+  // cron.schedule(
+  //   "0 0 * * *",
+  //   () => {
+  //     console.log("Memulai restart PM2...");
+  //     restartPM2();
+  //   },
+  //   {
+  //     timezone: "Asia/Jakarta", // Sesuaikan dengan zona waktu Anda
+  //   }
+  // );
 };
 
 WAConnect();
