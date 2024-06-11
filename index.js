@@ -66,6 +66,31 @@ const WAConnect = async () => {
   //START CLIENT
   BOT.initialize();
 
+  // Fungsi untuk menghapus semua room chat
+  const deleteAllChats = async () => {
+    try {
+      const chats = await BOT.getChats();
+      for (const chat of chats) {
+        await BOT.deleteChat(chat.id._serialized);
+      }
+      console.log("Semua room chat berhasil dihapus.");
+    } catch (error) {
+      console.error("Terjadi kesalahan saat menghapus room chat:", error);
+    }
+  };
+
+  // Jadwalkan penghapusan room chat setiap jam 2 malam
+  cron.schedule(
+    "0 2 * * *",
+    () => {
+      console.log("Memulai penghapusan semua room chat...");
+      deleteAllChats();
+    },
+    {
+      timezone: "Asia/Jakarta", // Sesuaikan dengan zona waktu Anda
+    }
+  );
+
   // Fungsi untuk merestart PM2
   // const restartPM2 = () => {
   //   exec("pm2 restart all", (error, stdout, stderr) => {
